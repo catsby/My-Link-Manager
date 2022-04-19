@@ -9,7 +9,7 @@ runner {
   enabled = true
 
   data_source "git" {
-    url  = "https://github.com/catsby/linky.git"
+    url  = "https://github.com/catsby/My-Link-Manager.git"
     # path = "kubernetes/nodejs"
 
     ref = "refs/heads/dev"
