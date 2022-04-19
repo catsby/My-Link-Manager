@@ -3,9 +3,10 @@ const app = express();
 const mongoose = require("mongoose");
 const config = require("./config");
 const initialize = require("./config/initialize");
+const DB = process.env.DATABASE_URL || ""
 
 // connecting with mongoosejs.
-mongoose.connect("REPLACE_WITH_YOUR_OWN_MONGO_URL", {
+mongoose.connect(DB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
