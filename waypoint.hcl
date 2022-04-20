@@ -16,7 +16,7 @@ variable "regcred_secret" {
 }
 
 variable "registry_username" {
-  default = dynamic("kubernetes", {
+  default = configdynamic("kubernetes", {
     name = "registry-userpass"
     key  = "username"
   })
@@ -26,7 +26,7 @@ variable "registry_username" {
 }
 
 variable "registry_password" {
-  default = dynamic("kubernetes", {
+  default = configdynamic("kubernetes", {
     name = "registry-userpass"
     key  = "password"
   })
