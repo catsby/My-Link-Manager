@@ -22,7 +22,6 @@ variable "registry_username" {
   })
   type        = string
   sensitive   = true
-  default = ""
   description = "username for container registry"
 }
 
@@ -33,7 +32,6 @@ variable "registry_password" {
   })
   type        = string
   sensitive   = true
-  default = ""
   description = "password for registry" // DO NOT COMMIT YOUR PASSWORD TO GIT
 }
 
