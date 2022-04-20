@@ -8,11 +8,12 @@ app "linky" {
 
   config {
     env = {
-      DATABASE_URL = dynamic("kubernetes", {
-        name = "db-url"
-        key  = "dburl"
-        secret = true
-      })
+      # DATABASE_URL = dynamic("kubernetes", {
+      #   name = "db-url"
+      #   key  = "dburl"
+      #   secret = true
+      # })
+      DATABASE_URL=var.database_url
     }
   }
 
@@ -83,3 +84,13 @@ variable "registry_password" {
   description = "password for registry" // DO NOT COMMIT YOUR PASSWORD TO GIT
 }
 
+variable "database_url" {
+  default = dynamic("kubernetes", {
+    name = "db-url"
+    key  = "dburl"
+    secret = true
+  })
+  type        = string
+  sensitive   = true
+  description = "db url to connect"
+}
