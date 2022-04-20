@@ -9,6 +9,31 @@ runner {
   }
 }
 
+variable "regcred_secret" {
+  default     = "regcred"
+  type        = string
+  description = "The existing secret name inside Kubernetes for authenticating to the container registry"
+}
+
+variable "registry_username" {
+  default = dynamic("kubernetes", {
+    name = "registry-userpass"
+    key  = "username"
+  })
+  type        = string
+  sensitive   = true
+  description = "username for container registry"
+}
+
+variable "registry_password" {
+  default = dynamic("kubernetes", {
+    name = "registry-userpass"
+    key  = "password"
+  })
+  type        = string
+  sensitive   = true
+  description = "password for registry" // DO NOT COMMIT YOUR PASSWORD TO GIT
+}
 
 app "linky" {
   labels = {
@@ -29,11 +54,11 @@ app "linky" {
     use "pack" {}
     registry {
       use "docker" {
-        # local registry
-        image = "192.168.147.4:5000/linky"
-        tag   = "1"
-        # username = var.registry_username
-        # password = var.registry_password
+        image = "catsby.jfrog.io/linky-demo-docker/linky"
+        tag   = "latest"
+
+        username = var.registry_username
+        password = var.registry_password
         local = false
       }
     }
@@ -42,6 +67,7 @@ app "linky" {
   deploy {
     use "kubernetes" {
       probe_path = "/"
+      image_secret = var.regcred_secret
     }
   }
 
