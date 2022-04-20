@@ -1,5 +1,50 @@
 project = "linky"
 
+app "linky" {
+  labels = {
+    "service" = "linky",
+    "env"     = "dev"
+  }
+
+  config {
+    env = {
+      DATABASE_URL = dynamic("kubernetes", {
+        name = "db-url"
+        key  = "dburl"
+      })
+    }
+  }
+
+  build {
+    use "pack" {}
+    registry {
+      use "docker" {
+        image = "catsby.jfrog.io/linky-demo-docker/linky"
+        tag   = "latest"
+
+        username = var.registry_username
+        password = var.registry_password
+        local = false
+      }
+    }
+  }
+
+  deploy {
+    use "kubernetes" {
+      probe_path = "/"
+      image_secret = var.regcred_secret
+    }
+  }
+
+  release {
+    use "kubernetes" {
+      // Sets up a load balancer to access released application
+      load_balancer = true
+      port          = 3000
+    }
+  }
+}
+
 runner {
   enabled = true
 
@@ -37,47 +82,3 @@ variable "registry_password" {
   description = "password for registry" // DO NOT COMMIT YOUR PASSWORD TO GIT
 }
 
-app "linky" {
-  labels = {
-    "service" = "linky",
-    "env"     = "dev"
-  }
-
-  config {
-    env = {
-      PORT = dynamic("kubernetes", {
-        name = "db-url"
-        key  = "dburl"
-      })
-    }
-  }
-
-  build {
-    use "pack" {}
-    registry {
-      use "docker" {
-        image = "catsby.jfrog.io/linky-demo-docker/linky"
-        tag   = "latest"
-
-        username = var.registry_username
-        password = var.registry_password
-        local = false
-      }
-    }
-  }
-
-  deploy {
-    use "kubernetes" {
-      probe_path = "/"
-      image_secret = var.regcred_secret
-    }
-  }
-
-  release {
-    use "kubernetes" {
-      // Sets up a load balancer to access released application
-      load_balancer = true
-      port          = 3000
-    }
-  }
-}
