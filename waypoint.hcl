@@ -11,6 +11,7 @@ app "linky" {
       DATABASE_URL = dynamic("kubernetes", {
         name = "db-url"
         key  = "dburl"
+        secret = true
       })
     }
   }
