@@ -8,11 +8,6 @@ app "linky" {
 
   config {
     env = {
-      # DATABASE_URL = dynamic("kubernetes", {
-      #   name = "db-url"
-      #   key  = "dburl"
-      #   secret = true
-      # })
       DATABASE_URL=var.database_url
     }
   }
