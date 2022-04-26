@@ -58,15 +58,26 @@ variable "regcred_secret" {
 }
 
 variable "registry_username" {
-  default = dynamic("kubernetes", {
-    name = "registry-userpass"
-    key  = "username"
-    secret = true
+    # KV Version 2
+  default = dynamic("vault", {
+    path = "secret/data/jfrogcreds"
+    key = "/data/password"
   })
   type        = string
   sensitive   = true
   description = "username for container registry"
 }
+
+# variable "registry_username" {
+#   default = dynamic("kubernetes", {
+#     name = "registry-userpass"
+#     key  = "username"
+#     secret = true
+#   })
+#   type        = string
+#   sensitive   = true
+#   description = "username for container registry"
+# }
 
 variable "registry_password" {
   default = dynamic("kubernetes", {
