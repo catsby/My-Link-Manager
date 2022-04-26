@@ -77,17 +77,6 @@ variable "registry_password" {
   description = "password for registry" // DO NOT COMMIT YOUR PASSWORD TO GIT
 }
 
-# variable "database_url" {
-#   default = dynamic("kubernetes", {
-#     name = "db-url"
-#     key  = "dburl"
-#     secret = true
-#   })
-#   type        = string
-#   sensitive   = true
-#   description = "db url to connect"
-# }
-
 variable "database_url" {
   type    = string
   default = dynamic("terraform-cloud", {
@@ -95,5 +84,6 @@ variable "database_url" {
     workspace    = "waypoint-demo-tfc"
     output       = "mongodb_url"
   })
+  sensitive   = true
   description = "db url to connect"
 }
