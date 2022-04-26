@@ -62,6 +62,7 @@ variable "registry_username" {
   default = dynamic("vault", {
     path = "secret/data/jfrogcreds"
     key = "/data/password"
+    secret = true
   })
   type        = string
   sensitive   = true
