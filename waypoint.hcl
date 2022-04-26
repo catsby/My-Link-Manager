@@ -61,7 +61,7 @@ variable "registry_username" {
     # KV Version 2
   default = dynamic("vault", {
     path = "secret/data/jfrogcreds"
-    key = "/data/password"
+    key = "data/username"
     secret = true
   })
   type        = string
